@@ -1,0 +1,14 @@
+TITLE: This is an example of LPA;
+DATA: FILE IS LPA.dat;
+VARIABLE: NAME ARE number ZRRS ZX1 ZX2 ZX3 ZBHS ZY1 ZY2 ZY3; 
+                   USEVARIABLES ARE ZX2 ZX3 ZY1 ZY3;
+                   MISSING ARE ALL (99); 
+                   CLASSES = C(4); 
+ANALYSIS: TYPE = MIXTURE; 
+                    STARTS = 200 50;
+                    PROCESSOR = 4;
+OUTPUT: TECH11 TECH14;
+SAVEDATA: FILE = dataRRS_BHS_2 4.TXT;
+                    SAVE = CPROB;
+PLOT: TYPE IS PLOT3;
+           SERIES = ZX2 ZX3 ZY1 ZY3 (*)
