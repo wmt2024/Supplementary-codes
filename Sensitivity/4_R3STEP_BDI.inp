@@ -1,0 +1,40 @@
+TITLE: 4-Class Latent Profile Analysis with Covariates (R3STEP method, Wald CI);
+
+DATA:
+  FILE IS LPA_3Step.dat;
+
+VARIABLE:
+  NAMES ARE number age SA SSI1 SSI2 NSSI BHS feeling motivation expectation 
+            RRS depression brooding reflection SAI TAI BDI class gender 
+            c1 c2 c3 Grade
+            Zfeeling Zexpectation Zbrooding Zreflection;
+
+  USEVARIABLES = Zfeeling Zexpectation Zbrooding Zreflection
+                 age Grade gender BDI SAI TAI;
+
+  CLASSES = c(4);     
+
+  MISSING = ALL(999);
+  IDVARIABLE = number;
+
+  AUXILIARY =  
+      TAI SAI age gender Grade BDI (R3STEP);  
+
+ANALYSIS:
+  TYPE = MIXTURE;
+  ESTIMATOR = MLR;
+  STARTS = 500 100;
+  STITERATIONS = 20;
+  LRTSTARTS = 0 0 200 40;
+  PROCESSORS = 4;
+
+OUTPUT:
+  TECH1 TECH4 TECH11 TECH14;
+  CINTERVAL;  
+SAVEDATA:
+  FILE = class4_R3STEP_prob.txt;  
+  SAVE = CPROB;
+
+PLOT:
+  TYPE = PLOT3;
+  SERIES = Zfeeling(1) Zexpectation(2) Zbrooding(3) Zreflection(4);

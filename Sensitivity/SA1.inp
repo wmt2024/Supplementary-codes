@@ -1,0 +1,39 @@
+TITLE: Step 1 - 4-class LPA and BCH weights;
+
+DATA: 
+  FILE IS LPA_3Step.dat;
+
+VARIABLE:
+  NAMES ARE number age SA SSI1 SSI2 NSSI BHS feeling motivation expectation 
+            RRS depression brooding reflection SAI TAI BDI class gender 
+            c1 c2 c3 Grade
+            Zfeeling Zexpectation Zbrooding Zreflection;
+
+  USEVAR = Zfeeling Zexpectation Zbrooding Zreflection; 
+  CLASSES = c(4);                              
+  AUXILIARY = SA (BCH);
+
+ANALYSIS:
+  TYPE = MIXTURE;
+  ESTIMATOR = MLR;
+  STARTS = 500 100;
+
+MODEL:
+%OVERALL%
+
+
+%C#1%
+
+
+%C#2%
+
+
+%C#3%
+
+
+%C#4%
+ 
+
+SAVEDATA:
+  FILE = LPA_BCH_weights.dat;
+  SAVE = BCH;
